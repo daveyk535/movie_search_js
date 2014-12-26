@@ -1,0 +1,11 @@
+* {
+	padding: 0px;
+	margin-top: 0px;
+}
+
+body {
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+	/*background-color: blue;*/
+}
