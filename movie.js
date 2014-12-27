@@ -18,7 +18,6 @@ window.addEventListener("load", getSearchHistory);
 // form.addEventListener("submit", getResults);
 $('#search-form').submit(function(event) {
   event.preventDefault();
-  // alert("test");
   getResults();
   (form).reset();
 });
@@ -48,12 +47,12 @@ function updatePage(i) {
 // Utility functions
 // ------------------------------------------------
 function getSearchHistory() {
-  if (localStorage.getItem("searchList") === null ) {
+  if (localStorage.getItem("searchHistory") === null ) {
       console.log("Local storage is empty");
       return;
   }
 
-  searchList = localStorage.getItem("searchList");
+  searchHistory = localStorage.getItem("searchHistory");
   // searchList = JSON.parse(searchList);
   console.log(searchList)
 };
@@ -65,7 +64,9 @@ function saveSearchTerm() {
       date: date
   }
   searchHistory.searches.push(search);
-  console.log(searchHistory);
+  var json = JSON.stringify(searchHistory);
+  console.log(json);
+  localStorage.setItem("searcHistory", json)
 };
 
 
