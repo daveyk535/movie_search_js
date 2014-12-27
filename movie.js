@@ -15,12 +15,18 @@ var searchHistory = {
 // Events
 // ----------------------------------------------
 window.addEventListener("load", getSearchHistory);
-form.addEventListener("submit", getResults);
-
+// form.addEventListener("submit", getResults);
+$('#search-form').submit(function(event) {
+  event.preventDefault();
+  // alert("test");
+  getResults();
+  (form).reset();
+});
 
 // Event handlers
 // ----------------------------------------------
 function getResults(event) {
+  saveSearchTerm();
   var url = "http://www.omdbapi.com/?s=" + userQuery.value;
   $.get(url, function(data) {
     movies = JSON.parse(data)
@@ -39,7 +45,6 @@ function updatePage(i) {
   anchor.appendChild(p);
 };
 
-
 // Utility functions
 // ------------------------------------------------
 function getSearchHistory() {
@@ -53,8 +58,18 @@ function getSearchHistory() {
   console.log(searchList)
 };
 
-function saveSearchTerm(string) {
+function saveSearchTerm() {
+  var date = new Date();
   var search = {
-      name: userQuery.value
+      name: userQuery.value,
+      date: date
   }
+  searchHistory.searches.push(search);
+  console.log(searchHistory);
 };
+
+
+
+
+
+
