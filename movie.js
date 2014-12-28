@@ -33,7 +33,6 @@ function getResults(event) {
   })
 };
 
-
 // Functions for updating the page
 // ----------------------------------------------
 function updatePage(i) {
@@ -42,6 +41,16 @@ function updatePage(i) {
   // Step 2 - add new elements to the DOM
   p.textContent = i.Title + " " + "(" + i.Year + ")";
   anchor.appendChild(p);
+};
+
+function getPoster(omdbID) {
+  var urlPoster = "http://www.omdbapi.com/?i=" + omdbID;
+  // console.log(urlPoster);
+  $.get(urlPoster, function(data) {
+    var poster = JSON.parse(data);
+    poster = poster.Poster
+    return poster;
+  })
 };
 
 // Utility functions
