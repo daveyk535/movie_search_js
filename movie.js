@@ -4,6 +4,7 @@ var userQuery = document.querySelector(".movie");
 var form = document.querySelector("form");
 var movies;
 var anchor = document.querySelector("#show-results");
+var poster2 = "";
 
 
 // Setup
@@ -30,26 +31,29 @@ function getResults(event) {
   $.get(url, function(data) {
     movies = JSON.parse(data)
     movies.Search.forEach(updatePage)
+    return movies;
   })
 };
 
 // Functions for updating the page
 // ----------------------------------------------
 function updatePage(i) {
-  // Step 1 - create the new <p> tag for each movie
-  var p = document.createElement("p");
-  // Step 2 - add new elements to the DOM
-  p.textContent = i.Title + " " + "(" + i.Year + ")";
-  anchor.appendChild(p);
+  // Step 1 - create the new <a> tag for each movie
+  var a = document.createElement("a");
+  // Step 2 - get the url for the poster
+  var poster = createPosterUrl(i.imdbID);
+  // Step 3 - add new elements to the DOM
+  a.textContent = i.Title;
+  anchor.appendChild(a);
 };
 
-function getPoster(omdbID) {
+function createPosterUrl(omdbID) {
   var urlPoster = "http://www.omdbapi.com/?i=" + omdbID;
-  // console.log(urlPoster);
   $.get(urlPoster, function(data) {
-    var poster = JSON.parse(data);
-    poster = poster.Poster
-    return poster;
+    var posterData = JSON.parse(data);
+    poster2 = posterData.Poster;
+    console.log(poster2, "test");
+    // return ("poster2");
   })
 };
 
