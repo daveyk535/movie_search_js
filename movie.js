@@ -4,7 +4,7 @@ var userQuery = document.querySelector(".movie");
 var form = document.querySelector("form");
 var movies;
 var anchor = document.querySelector("#show-results");
-var poster2;
+
 
 
 // Setup
@@ -23,10 +23,6 @@ $('#search-form').submit(function(event) {
   (form).reset();
 });
 
-$('a').on('click', function(event) {
-  event.preventDefault();
-  alert("You clicked a link");
-});
 
 // Event handlers
 // ----------------------------------------------
@@ -36,14 +32,10 @@ function getResults(event) {
   $.get(url, function(data) {
     movies = JSON.parse(data)
     movies.Search.forEach(updatePage)
-    return movies;
+    // return movies;
   })
 };
 
-function getPosters(event) {
-  var url = "http://www.omdbapi.com/?i=" + userQuery.value;
-
-}
 // Functions for updating the page
 // ----------------------------------------------
 function updatePage(i) {
@@ -53,11 +45,21 @@ function updatePage(i) {
   // Step 2 - create the url for the poster
   // createPosterUrl(i.imdbID);
   var urlPoster = "http://www.omdbapi.com/?i=" + i.imdbID; 
-  // Step 3 - add new elements to the DOM
-  a.setAttribute('href', urlPoster);
-  a.innerHTML = i.Title;
-  anchor.appendChild(a);
-  anchor.appendChild(lineBreak);
+  // Step 3 - get the poster url
+  $.get(urlPoster, function(data) {
+    var posterData = JSON.parse(data);
+    posterData = posterData.Poster;
+    // Step 4 - add new elements to the DOM
+    a.setAttribute('href', posterData);
+    a.innerHTML = i.Title;
+    anchor.appendChild(a);
+    anchor.appendChild(lineBreak);
+  })
+  // // Step 4 - add new elements to the DOM
+  // a.setAttribute('href', urlPoster);
+  // a.innerHTML = i.Title;
+  // anchor.appendChild(a);
+  // anchor.appendChild(lineBreak);
 };
 
 // function createPosterUrl(omdbID) {
