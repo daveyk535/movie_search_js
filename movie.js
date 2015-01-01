@@ -2,10 +2,7 @@
 // ----------------------------------------------
 var userQuery = document.querySelector(".movie");
 var form = document.querySelector("form");
-var movies;
 var anchor = document.querySelector("#show-results");
-
-
 
 // Setup
 // ----------------------------------------------
@@ -20,6 +17,7 @@ window.addEventListener("load", getSearchHistory);
 $('#search-form').submit(function(event) {
   event.preventDefault();
   getResults();
+  saveSearchTerm();
   (form).reset();
 });
 
@@ -27,10 +25,9 @@ $('#search-form').submit(function(event) {
 // Event handlers
 // ----------------------------------------------
 function getResults(event) {
-  saveSearchTerm();
   var url = "http://www.omdbapi.com/?s=" + userQuery.value;
   $.get(url, function(data) {
-    movies = JSON.parse(data)
+    var movies = JSON.parse(data)
     movies.Search.forEach(updatePage)
   })
 };
@@ -42,7 +39,6 @@ function updatePage(i) {
   var a = document.createElement("a");
   var lineBreak = document.createElement("br");
   // Step 2 - create the url for the poster
-  // createPosterUrl(i.imdbID);
   var urlPoster = "http://www.omdbapi.com/?i=" + i.imdbID; 
   // Step 3 - get the poster url
   $.get(urlPoster, function(data) {
@@ -58,17 +54,18 @@ function updatePage(i) {
 
 // Utility functions
 // ------------------------------------------------
+
+//retrieve search histoy from local storage
 function getSearchHistory() {
   if (localStorage.getItem("searchHistory") === null ) {
       console.log("Local storage is empty");
       return;
   }
-
   searchHistory = localStorage.getItem("searchHistory");
   searchHistory = JSON.parse(searchHistory);
-  console.log(searchHistory)
 };
 
+//save the search keyword in local storage
 function saveSearchTerm() {
   var date = new Date();
   var search = {
@@ -77,7 +74,6 @@ function saveSearchTerm() {
   }
   searchHistory.searches.push(search);
   var json = JSON.stringify(searchHistory);
-  console.log(json);
   localStorage.setItem("searchHistory", json)
 };
 
