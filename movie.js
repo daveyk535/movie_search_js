@@ -4,7 +4,7 @@ var userQuery = document.querySelector(".movie");
 var form = document.querySelector("form");
 var movies;
 var anchor = document.querySelector("#show-results");
-var poster2 = "";
+var poster2;
 
 
 // Setup
@@ -23,6 +23,11 @@ $('#search-form').submit(function(event) {
   (form).reset();
 });
 
+$('a').on('click', function(event) {
+  event.preventDefault();
+  alert("You clicked a link");
+});
+
 // Event handlers
 // ----------------------------------------------
 function getResults(event) {
@@ -35,27 +40,33 @@ function getResults(event) {
   })
 };
 
+function getPosters(event) {
+  var url = "http://www.omdbapi.com/?i=" + userQuery.value;
+
+}
 // Functions for updating the page
 // ----------------------------------------------
 function updatePage(i) {
-  // Step 1 - create the new <a> tag for each movie
+  // Step 1 - create the new <a> tag for each movie and a line break for readability
   var a = document.createElement("a");
-  // Step 2 - get the url for the poster
-  var poster = createPosterUrl(i.imdbID);
+  var lineBreak = document.createElement("br");
+  // Step 2 - create the url for the poster
+  // createPosterUrl(i.imdbID);
+  var urlPoster = "http://www.omdbapi.com/?i=" + i.imdbID; 
   // Step 3 - add new elements to the DOM
-  a.textContent = i.Title;
+  a.setAttribute('href', urlPoster);
+  a.innerHTML = i.Title;
   anchor.appendChild(a);
+  anchor.appendChild(lineBreak);
 };
 
-function createPosterUrl(omdbID) {
-  var urlPoster = "http://www.omdbapi.com/?i=" + omdbID;
-  $.get(urlPoster, function(data) {
-    var posterData = JSON.parse(data);
-    poster2 = posterData.Poster;
-    console.log(poster2, "test");
-    // return ("poster2");
-  })
-};
+// function createPosterUrl(omdbID) {
+//   var urlPoster = "http://www.omdbapi.com/?i=" + omdbID;
+//   $.get(urlPoster, function(data) {
+//     var posterData = JSON.parse(data);
+//     poster2 = posterData.Poster;
+//   })
+// };
 
 // Utility functions
 // ------------------------------------------------
