@@ -32,7 +32,6 @@ function getResults(event) {
   $.get(url, function(data) {
     movies = JSON.parse(data)
     movies.Search.forEach(updatePage)
-    // return movies;
   })
 };
 
@@ -55,20 +54,7 @@ function updatePage(i) {
     anchor.appendChild(a);
     anchor.appendChild(lineBreak);
   })
-  // // Step 4 - add new elements to the DOM
-  // a.setAttribute('href', urlPoster);
-  // a.innerHTML = i.Title;
-  // anchor.appendChild(a);
-  // anchor.appendChild(lineBreak);
 };
-
-// function createPosterUrl(omdbID) {
-//   var urlPoster = "http://www.omdbapi.com/?i=" + omdbID;
-//   $.get(urlPoster, function(data) {
-//     var posterData = JSON.parse(data);
-//     poster2 = posterData.Poster;
-//   })
-// };
 
 // Utility functions
 // ------------------------------------------------
@@ -79,8 +65,8 @@ function getSearchHistory() {
   }
 
   searchHistory = localStorage.getItem("searchHistory");
-  // searchList = JSON.parse(searchList);
-  console.log(searchList)
+  searchHistory = JSON.parse(searchHistory);
+  console.log(searchHistory)
 };
 
 function saveSearchTerm() {
@@ -92,7 +78,7 @@ function saveSearchTerm() {
   searchHistory.searches.push(search);
   var json = JSON.stringify(searchHistory);
   console.log(json);
-  localStorage.setItem("searcHistory", json)
+  localStorage.setItem("searchHistory", json)
 };
 
 
